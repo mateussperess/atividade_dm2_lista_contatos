@@ -1,8 +1,10 @@
 package com.example.atividade_dm2_lista_contatos;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,12 +23,16 @@ public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> 
         final TextView txtNome;
         final TextView txtFone;
         final TextView txtEmail;
+        final Button btnDeletar;
+        final Button btnAtualizar;
 
         public ViewHolder(View view) {
             super(view);
             txtNome = (TextView) view.findViewById(R.id.txtNome);
             txtFone = (TextView) view.findViewById(R.id.txtFone);
             txtEmail = (TextView) view.findViewById(R.id.txtEmail);
+            btnDeletar = (Button) view.findViewById(R.id.btnDeletar);
+            btnAtualizar = (Button) view.findViewById(R.id.btnAtualizar);
         }
     }
 
@@ -45,6 +51,20 @@ public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> 
         holder.txtNome.setText(contato.nome);
         holder.txtFone.setText(contato.telefone);
         holder.txtEmail.setText(contato.email);
+
+        holder.btnDeletar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TESTE", "Deletando ... " + contato.id);
+            }
+        });
+
+        holder.btnAtualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TESTE", "Atualizando ... " + contato.id);
+            }
+        });
     }
 
     @Override

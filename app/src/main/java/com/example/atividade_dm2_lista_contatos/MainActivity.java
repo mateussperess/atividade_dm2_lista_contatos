@@ -21,9 +21,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     List<Contato> contatos;
     Button btnCriarContato;
-
-    Button btnAtualizar;
     Button btnDeletar;
+    Button btnAtualizar;
 
     String DATABASE_NAME = "my-db";
 
