@@ -2,6 +2,7 @@ package com.example.atividade_dm2_lista_contatos;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,12 +13,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<Contato> contatos;
+    List<Contato> contatos;
     Button btnCriarContato;
+
+    String DATABASE_NAME = "my-db";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +45,36 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        gerarContatos();
 
-        RecyclerView rvContatos = findViewById(R.id.rvContatos);
-        MeuAdaptador adapter = new MeuAdaptador(contatos);
-        RecyclerView.LayoutManager layout =
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvContatos.setLayoutManager(layout);
-        rvContatos.setAdapter(adapter);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                buscaContatos();
 
+                RecyclerView rvContatos = findViewById(R.id.rvContatos);
+                MeuAdaptador adapter = new MeuAdaptador(contatos);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView.LayoutManager layout =
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
+                        rvContatos.setLayoutManager(layout);
+                        rvContatos.setAdapter(adapter);
+                    }
+                });
+            }
+        }).start();
     }
 
-    private void gerarContatos() {
-        contatos = new ArrayList<Contato>();
-        criarContato("Juca", "51 99532 2218", "teste@email.com");
-        criarContato("Jucão", "51 95423 2848", "teste@email.com");
-        criarContato("Juquinha", "51 99325 3388", "teste@email.com");
-        criarContato("Jocalino", "51 98765 1247", "teste@email.com");
-        criarContato("Juju", "51 99281 1234", "teste@email.com");
-        criarContato("Juca", "51 98121 2128", "teste@email.com");
-        criarContato("Juquinha", "51 97723 3388", "teste@email.com");
-    }
+    private void buscaContatos() {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DATABASE_NAME)
+                .build();
 
-    private void criarContato(String nome, String fone, String email) {
-        Contato contato = new Contato(nome, fone, email);
-        contatos.add(contato);
+        ContatoDAO contatoDAO = db.contatoDAO();
+        contatos = contatoDAO.getAll();
+        for (Contato c : contatos) {
+            Log.d("TESTE", c.nome);
+        }
     }
 }

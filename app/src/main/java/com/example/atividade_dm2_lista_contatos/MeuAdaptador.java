@@ -8,12 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> {
-    ArrayList<Contato> contatos; //TODO: sair daqui?
+    List<Contato> contatos; //TODO: sair daqui?
 
-    public MeuAdaptador(ArrayList<Contato> contatos) {
+    public MeuAdaptador(List<Contato> contatos) {
         this.contatos = contatos;
     }
 
