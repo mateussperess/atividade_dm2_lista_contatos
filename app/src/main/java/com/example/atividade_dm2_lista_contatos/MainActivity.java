@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     List<Contato> contatos;
     Button btnCriarContato;
 
+    Button btnAtualizar;
+    Button btnDeletar;
+
     String DATABASE_NAME = "my-db";
 
     @Override
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         btnCriarContato = findViewById(R.id.btnCriarContato);
         btnCriarContato.setOnClickListener(new View.OnClickListener() {
@@ -38,14 +46,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(itCriarContato);
             }
         });
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         ContatoDAO contatoDAO = db.contatoDAO();
         contatos = contatoDAO.getAll();
         for (Contato c : contatos) {
-            Log.d("TESTE", c.nome);
+            Log.d("TESTE", "ID: " + c.id + " | Nome: " + c.nome + " | Fone: " + c.telefone + " | Email: " + c.email);
         }
     }
 }
