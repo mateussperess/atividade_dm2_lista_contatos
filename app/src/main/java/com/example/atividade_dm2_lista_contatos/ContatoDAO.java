@@ -12,6 +12,12 @@ public interface ContatoDAO {
     @Query("SELECT * FROM contato")
     List<Contato> getAll();
 
+    @Query("SELECT * FROM contato WHERE id LIKE :id")
+    Contato getById(int id);
+
     @Insert
     void insert (Contato... contatos);
+
+    @Update
+    void update(Contato... contato);
 }

@@ -1,5 +1,6 @@
 package com.example.atividade_dm2_lista_contatos;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,9 @@ public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> 
         holder.btnAtualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TESTE", "Atualizando ... " + contato.id);
+                Intent itAtualizar = new Intent(v.getContext(), AtualizarContato.class);
+                itAtualizar.putExtra("idContato", contato.id);
+                v.getContext().startActivity(itAtualizar);
             }
         });
     }
