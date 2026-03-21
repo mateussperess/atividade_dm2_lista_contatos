@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> {
-    List<Contato> contatos; //TODO: sair daqui?
+    List<Contato> contatos;
 
     public MeuAdaptador(List<Contato> contatos) {
         this.contatos = contatos;

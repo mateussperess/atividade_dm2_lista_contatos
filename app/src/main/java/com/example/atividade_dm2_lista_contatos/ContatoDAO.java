@@ -1,6 +1,7 @@
 package com.example.atividade_dm2_lista_contatos;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -20,4 +21,7 @@ public interface ContatoDAO {
 
     @Update
     void update(Contato... contato);
+
+    @Delete
+    void delete(Contato... contato);
 }
