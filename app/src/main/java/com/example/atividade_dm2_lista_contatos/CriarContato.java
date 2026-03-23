@@ -19,6 +19,7 @@ public class CriarContato extends AppCompatActivity {
     EditText etTelefone;
     EditText etEmail;
     Button btnGravarContato;
+    Button btnVoltar;
 
     String DATABASE_NAME = "my-db";
 
@@ -33,6 +34,7 @@ public class CriarContato extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
 
         btnGravarContato = findViewById(R.id.btnGravarContato);
+        btnVoltar = findViewById(R.id.btnVoltar);
 
         btnGravarContato.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +47,13 @@ public class CriarContato extends AppCompatActivity {
             }
         });
 
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainCriarContato), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -53,6 +62,26 @@ public class CriarContato extends AppCompatActivity {
     }
 
     public void gravarContato(View view) {
+        String nome = etNome.getText().toString();
+        String telefone = etTelefone.getText().toString();
+        String email = etEmail.getText().toString();
+
+        if (nome.isEmpty()) {
+            etNome.setError("Nome é obrigatório");
+            return;
+        }
+        if (telefone.isEmpty()) {
+            etTelefone.setError("Telefone é obrigatório");
+            return;
+        } else if (telefone.length() < 11) {
+            etTelefone.setError("Telefone deve ser válido");
+            return;
+        }
+        if (email.isEmpty()) {
+            etEmail.setError("Email é obrigatório");
+            return;
+        }
+
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DATABASE_NAME)
                 .build();
 
@@ -73,6 +102,7 @@ public class CriarContato extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Contato criado com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
             }

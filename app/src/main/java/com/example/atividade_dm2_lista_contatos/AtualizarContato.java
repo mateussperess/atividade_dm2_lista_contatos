@@ -24,6 +24,7 @@ public class AtualizarContato extends AppCompatActivity {
     int extraId;
 
     Button btnAtualizarContato;
+    Button btnVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class AtualizarContato extends AppCompatActivity {
         extraId = extras.getInt("idContato");
 
         btnAtualizarContato = findViewById(R.id.btnAtualizarContato);
+        btnVoltar = findViewById(R.id.btnVoltar);
 
         btnAtualizarContato.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +49,19 @@ public class AtualizarContato extends AppCompatActivity {
                 String novoNome = etNomeContato.getText().toString();
                 String novoTelefone = etTelefoneContato.getText().toString();
                 String novoEmail = etEmailContato.getText().toString();
+
+                if (novoNome.isEmpty()) {
+                    etNomeContato.setError("Nome é obrigatório");
+                    return;
+                }
+                if (novoTelefone.isEmpty()) {
+                    etTelefoneContato.setError("Telefone é obrigatório");
+                    return;
+                }
+                if (novoEmail.isEmpty()) {
+                    etEmailContato.setError("Email é obrigatório");
+                    return;
+                }
 
                 Contato novosDadosContato = new Contato(novoNome, novoTelefone, novoEmail);
                 novosDadosContato.id = extraId;
@@ -58,7 +73,12 @@ public class AtualizarContato extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AtualizarContato.this, "Contato atualizado!", Toast.LENGTH_SHORT);
+                                Toast.makeText(
+                                        AtualizarContato.this,
+                                        "Contato atualizado!",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                                finish();
                             }
                         });
                     }
@@ -66,6 +86,12 @@ public class AtualizarContato extends AppCompatActivity {
             }
         });
 
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainAtualizarContato), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
