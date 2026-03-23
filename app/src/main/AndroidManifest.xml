@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Atividade_dm2_lista_contatos">
         <activity
+            android:name=".ConfirmarDelecaoContato"
+            android:exported="false" />
+        <activity
             android:name=".AtualizarContato"
             android:exported="false" />
         <activity

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> 
     public MeuAdaptador(List<Contato> contatos) {
         this.contatos = contatos;
     }
+    String DATABASE_NAME = "my-db";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView txtNome;
@@ -53,19 +56,21 @@ public class MeuAdaptador extends RecyclerView.Adapter<MeuAdaptador.ViewHolder> 
         holder.txtFone.setText(contato.telefone);
         holder.txtEmail.setText(contato.email);
 
-        holder.btnDeletar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("TESTE", "Deletando ... " + contato.id);
-            }
-        });
-
         holder.btnAtualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent itAtualizar = new Intent(v.getContext(), AtualizarContato.class);
                 itAtualizar.putExtra("idContato", contato.id);
                 v.getContext().startActivity(itAtualizar);
+            }
+        });
+
+        holder.btnDeletar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itConfirmarDelecao = new Intent(v.getContext(), ConfirmarDelecaoContato.class);
+                itConfirmarDelecao.putExtra("idContato", contato.id);
+                v.getContext().startActivity(itConfirmarDelecao);
             }
         });
     }
